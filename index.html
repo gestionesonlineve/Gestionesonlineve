@@ -95,34 +95,82 @@ html{scroll-behavior:smooth;scroll-padding-top:20px}body{background:#f6f8fc;line
 @media(max-width:760px){.hero{padding-top:17px}.brand-row{padding-bottom:20px}.brand{font-size:.95rem}.nav-contact{font-size:.78rem;padding:9px 10px}.hero-content{grid-template-columns:1fr;gap:8px;padding:43px 0 22px}.hero h1{font-size:clamp(2.45rem,10vw,3.45rem);letter-spacing:-1.3px}.hero p{font-size:.98rem}.hero-visual{min-height:335px;margin-top:6px}.visual-card{max-width:315px;padding:22px}.visual-orbit{width:290px;height:290px}.orbit-two{width:340px;height:340px}.floating-stamp{right:0;bottom:10px}.hero-trust{gap:10px;justify-content:space-between;font-size:.68rem;padding:15px 0}.hero-trust b{margin-right:3px}.barra{margin-top:-23px;width:calc(100% - 28px)}.catalogo{padding:55px 0 60px}.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:17px}.card img{height:175px}.ventajas{padding:48px 0}.grid-ventajas{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ventaja{padding:20px 12px}.ventaja .v-ico{width:48px;height:48px;font-size:1.45rem}}
 @media(max-width:390px){.hero-actions{gap:14px}.btn{padding:13px 14px;font-size:.87rem}.hero-trust{font-size:.62rem}.hero-points{gap:9px;font-size:.72rem}.hero-points span:first-child{padding-right:9px}.brand-mark{width:38px;height:38px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* Portada compacta: prioridad al catálogo de servicios */
+.hero{padding:0;background:linear-gradient(125deg,#102b55 0%,#164b91 100%)}
+.hero::before,.hero::after{display:none}
+.hero-inner{position:relative;z-index:1}
+.brand-row{padding:13px 0 14px;align-items:center}
+.brand{font-size:.94rem;gap:9px}
+.brand small{font-size:.61rem;letter-spacing:1.2px}
+.brand-mark{width:38px;height:38px;border-radius:11px;font-size:.85rem;box-shadow:none}
+.nav-contact{font-size:.78rem;padding:8px 11px}
+.hero-content-simple{display:block;padding:20px 0 26px;max-width:900px}
+.hero-content-simple .hero-copy{max-width:760px;margin:0;text-align:left}
+.hero-content-simple .hero-badge{margin-bottom:13px;padding:5px 10px;font-size:.72rem}
+.hero-content-simple h1{font-size:clamp(1.9rem,4vw,2.8rem);letter-spacing:-.8px;line-height:1.12;margin-bottom:12px}
+.hero-content-simple h1 br{display:none}
+.hero-content-simple h1 span{display:inline;color:#ffd16f}
+.hero-content-simple .hero-copy>p{margin:0 0 17px;max-width:600px;font-size:.94rem;line-height:1.6}
+.hero-content-simple .hero-actions{justify-content:flex-start;gap:14px}
+.hero-content-simple .btn{padding:11px 16px;font-size:.88rem;border-radius:9px}
+.hero-content-simple .hero-points{justify-content:flex-start;margin-top:13px;gap:12px;font-size:.73rem}
+.hero-content-simple .hero-points span:first-child{padding-right:12px}
+.hero-trust-simple{display:none}
+.barra{margin-top:-17px;max-width:900px;padding:10px 12px;border-radius:12px;box-shadow:0 8px 24px rgba(16,43,85,.08)}
+.barra input{padding:10px 13px;font-size:.94rem}
+section.catalogo{padding:35px 0 55px}
+.titulo-sec{margin-bottom:22px}
+.titulo-sec h2{font-size:1.65rem}
+.titulo-sec p{font-size:.92rem}
+@media(max-width:760px){
+ .hero{padding-top:0}
+ .brand-row{padding:11px 0 12px}
+ .brand{font-size:.87rem}
+ .brand small{font-size:.56rem}
+ .brand-mark{width:35px;height:35px}
+ .nav-contact{font-size:.72rem;padding:7px 9px}
+ .hero-content-simple{padding:18px 0 22px}
+ .hero-content-simple .hero-copy{text-align:left}
+ .hero-content-simple .hero-badge{margin-bottom:12px}
+ .hero-content-simple h1{font-size:clamp(1.85rem,7.5vw,2.55rem);letter-spacing:-.7px;line-height:1.12}
+ .hero-content-simple .hero-copy>p{font-size:.9rem;margin-bottom:16px}
+ .hero-content-simple .hero-actions{gap:12px}
+ .hero-content-simple .btn{padding:11px 13px;font-size:.82rem}
+ .hero-content-simple .hero-link{font-size:.82rem}
+ .hero-content-simple .hero-points{margin-top:12px;font-size:.69rem;gap:9px}
+ .hero-content-simple .hero-points span:first-child{padding-right:9px}
+ .barra{margin-top:-12px;width:calc(100% - 28px)}
+ .catalogo{padding:34px 0 48px}
+ .titulo-sec{margin-bottom:20px}
+ .titulo-sec h2{font-size:1.45rem}
+ .grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:14px}
+ .card img{height:145px}
+}
+@media(max-width:390px){
+ .nav-contact{font-size:.68rem;padding:7px 8px}
+ .hero-content-simple h1{font-size:1.8rem}
+ .hero-content-simple .btn{padding:10px 11px;font-size:.77rem}
+ .hero-content-simple .hero-points{font-size:.64rem}
+}
 </style>
 </head>
 <body>
 
 <header class="hero">
   <div class="container hero-inner">
-    <div class="brand-row">
-      <a class="brand" href="#inicio" aria-label="Gestiones Express, inicio"><span class="brand-mark">GE</span><span>Gestiones <b>Express</b><small>Soluciones digitales</small></span></a>
-      <a class="nav-contact" href="#catalogo">Explorar servicios <span aria-hidden="true">↗</span></a>
-    </div>
-    <div class="hero-content" id="inicio">
+    <div class="hero-content hero-content-simple" id="inicio">
       <div class="hero-copy">
-        <span class="hero-badge"><span class="status-dot"></span> Trámites en línea · Venezuela</span>
-        <h1>Menos vueltas.<br><span>Más soluciones.</span></h1>
-        <p>Te ayudamos a gestionar tus documentos y servicios desde donde estés, con atención directa y orientación clara en cada paso.</p>
-        <div class="hero-actions"><button class="btn btn-wsp" onclick="wspGeneral()">💬 Hablar por WhatsApp <span aria-hidden="true">→</span></button><a class="hero-link" href="#catalogo">Ver catálogo <span aria-hidden="true">↓</span></a></div>
-        <div class="hero-points"><span>✓ Atención personalizada</span><span>✓ Requisitos claros</span></div>
-      </div>
-      <div class="hero-visual" aria-hidden="true"><div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
-        <div class="visual-card"><div class="visual-card-top"><span class="visual-icon">✦</span><span class="visual-status">Atención online</span></div>
-          <p class="visual-eyebrow">TU GESTIÓN, MÁS SIMPLE</p><h2>Todo empieza<br>con un mensaje.</h2>
-          <div class="visual-line"><span class="visual-check">✓</span><span><b>Orientación clara</b><small>Te explicamos cada paso</small></span></div>
-          <div class="visual-line"><span class="visual-check">✓</span><span><b>Seguimiento directo</b><small>Conversa con nosotros</small></span></div>
-          <div class="visual-bottom"><span>Gestiones Express</span><span>GE / 01</span></div>
-        </div><div class="floating-stamp"><span>✦</span> Simple. Claro. Directo.</div>
+        <span class="hero-badge"><span class="status-dot"></span> Atención en línea · Venezuela</span>
+        <h1>Resuelve tus<br><span>gestiones sin complicarte.</span></h1>
+        <p>Te orientamos con tus documentos y trámites, de forma clara, directa y desde tu celular.</p>
+        <div class="hero-actions">
+          <button class="btn btn-wsp" onclick="wspGeneral()">💬 Consultar por WhatsApp <span aria-hidden="true">→</span></button>
+          <a class="hero-link" href="#catalogo">Ver servicios <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-points"><span>✓ Atención personalizada</span><span>✓ Precios visibles</span></div>
       </div>
     </div>
-    <div class="hero-trust"><span><b>01</b> Elige tu servicio</span><i></i><span><b>02</b> Consulta requisitos</span><i></i><span><b>03</b> Escríbenos</span></div>
   </div>
 </header>
 
