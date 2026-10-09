@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Administrador</title>
+<meta name="robots" content="noindex,nofollow">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<style>
+:root{--azul:#0b3d91;--azul2:#1565d8;--gris:#6b7a8d;--verde:#25d366;--rojo:#e5484d;--bg:#eef2f8;--sombra:0 10px 30px rgba(11,61,145,.10)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:var(--bg);color:#1c2733;min-height:100vh}
+.caja{max-width:860px;margin:0 auto;padding:30px 18px}
+.tarjeta{background:#fff;border-radius:16px;box-shadow:var(--sombra);padding:28px}
+h1{color:var(--azul);font-size:1.6rem;margin-bottom:4px}
+h2{color:var(--azul);font-size:1.15rem;margin:22px 0 14px}
+.campo{margin-bottom:14px}
+.campo label{display:block;font-size:.78rem;font-weight:700;color:var(--gris);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.campo input,.campo textarea{width:100%;border:2px solid #e3eaf3;border-radius:10px;padding:11px 13px;font-size:.95rem;outline:none;font-family:inherit}
+.campo input:focus,.campo textarea:focus{border-color:var(--azul2)}
+.campo textarea{resize:vertical;min-height:64px}
+.btn{border:none;border-radius:10px;padding:12px 22px;font-weight:700;font-size:.95rem;cursor:pointer;transition:.2s}
+.btn-p{background:var(--azul2);color:#fff}.btn-p:hover{background:var(--azul)}
+.btn-e{background:#e8f1ff;color:var(--azul2);padding:7px 12px;font-size:.82rem;margin-right:6px}
+.btn-d{background:#ffe8e8;color:var(--rojo);padding:7px 12px;font-size:.82rem}
+.btn-v{background:var(--verde);color:#fff;padding:7px 12px;font-size:.82rem}
+.btn-s{background:#f0f0f0;color:var(--gris);padding:7px 12px;font-size:.82rem}
+.tabs{display:flex;gap:8px;margin:20px 0;flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:20px;border:2px solid #e3eaf3;background:#fff;cursor:pointer;font-weight:700;font-size:.85rem;color:var(--gris)}
+.tab.act{background:var(--azul2);color:#fff;border-color:var(--azul2)}
+.fila{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #e3eaf3;border-radius:12px;padding:10px 14px;margin-bottom:10px;flex-wrap:wrap}
+.fila img{width:64px;height:44px;object-fit:cover;border-radius:8px}
+.fila .info{flex:1;min-width:180px}
+.fila .info b{color:var(--azul)}
+.fila small{color:var(--gris)}
+.badge{font-size:.7rem;font-weight:800;padding:3px 10px;border-radius:20px}
+.b-on{background:#e6f9ee;color:#0d7a3f}.b-off{background:#ffe8e8;color:var(--rojo)}
+.stat{margin-bottom:12px}
+.stat-barra{height:9px;background:#e3eaf3;border-radius:6px;overflow:hidden;margin-top:3px}
+.stat-barra div{height:100%;background:linear-gradient(90deg,var(--azul2),#f5b301);border-radius:6px}
+.subir{display:flex;gap:10px;align-items:center}
+.subir input[type=file]{flex:1;border:2px dashed #cfdcee;border-radius:10px;padding:9px;background:#f7fafd}
+.preview{width:100%;max-height:170px;object-fit:cover;border-radius:10px;margin-top:8px;display:none}
+.error{background:#ffe8e8;color:var(--rojo);border-radius:10px;padding:10px 14px;font-size:.88rem;margin-top:12px;display:none}
+.ok{background:#e6f9ee;color:#0d7a3f;border-radius:10px;padding:10px 14px;font-size:.88rem;margin-top:12px;display:none}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--azul);color:#fff;padding:12px 24px;border-radius:12px;font-weight:600;opacity:0;transition:.3s;z-index:200}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="caja" id="vistaLogin" style="max-width:440px;padding-top:8vh">
+  <div class="tarjeta">
+    <h1>🔐 Panel Administrador</h1>
+    <p style="color:var(--gris);font-size:.9rem;margin-bottom:20px">Acceso exclusivo. Esta página no está enlazada desde el catálogo público.</p>
+    <div class="campo"><label>Correo</label><input type="email" id="lEmail" autocomplete="username"></div>
+    <div class="campo"><label>Contraseña</label><input type="password" id="lPass" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"></div>
+    <button class="btn btn-p" style="width:100%" onclick="login()">Ingresar</button>
+    <div class="error" id="lErr"></div>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div class="caja" id="vistaPanel" style="display:none">
+  <header>
+    <div><h1>⚙️ Panel de Gestión</h1><small style="color:var(--gris)" id="sesionTxt"></small></div>
+    <button class="btn btn-d" onclick="salir()">Cerrar sesión</button>
+  </header>
+
+  <div class="tabs">
+    <button class="tab act" onclick="tab(this,'lista')">📦 Servicios</button>
+    <button class="tab" onclick="tab(this,'form')">➕ Agregar / Editar</button>
+    <button class="tab" onclick="tab(this,'stats')">📊 Estadísticas</button>
+    <button class="tab" onclick="tab(this,'cfg')">⚙️ Configuración</button>
+  </div>
+
+  <!-- LISTA -->
+  <div class="tarjeta" id="tab-lista"></div>
+
+  <!-- FORM -->
+  <div class="tarjeta" id="tab-form" style="display:none">
+    <h2 id="formTitulo">➕ Nuevo servicio</h2>
+    <div class="campo"><label>Nombre *</label><input id="fNombre" placeholder="Ej: Cita para Cédula de Identidad"></div>
+    <div class="campo"><label>Precio *</label><input id="fPrecio" placeholder="Ej: $3"></div>
+    <div class="campo"><label>Tiempo estimado de entrega</label><input id="fTiempo" placeholder="Ej: 24 horas"></div>
+    <div class="campo"><label>Descripción (se muestra al cliente)</label><textarea id="fDesc"></textarea></div>
+    <div class="campo"><label>Requisitos (uno por línea)</label><textarea id="fReq" placeholder="Cédula vencida&#10;Teléfono activo"></textarea></div>
+    <div class="campo"><label>Imagen de presentación</label>
+      <div class="subir"><input type="file" id="fImg" accept="image/*" onchange="previsualizar()"></div>
+      <img class="preview" id="fPreview">
+      <small style="color:var(--gris)">Puedes subirla desde tu equipo o pegar una URL en el campo siguiente.</small>
+    </div>
+    <div class="campo"><label>O URL de imagen</label><input id="fImgUrl" placeholder="https://..." oninput="previewUrl()"></div>
+    <label style="display:flex;align-items:center;gap:8px;margin:10px 0 18px;font-size:.92rem">
+      <input type="checkbox" id="fActivo" checked style="width:18px;height:18px"> Visible en el catálogo público
+    </label>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-p" onclick="guardar()">💾 Guardar</button>
+      <button class="btn btn-s" onclick="limpiarForm()">Limpiar</button>
+    </div>
+    <div class="error" id="fErr"></div>
+  </div>
+
+  <!-- STATS -->
+  <div class="tarjeta" id="tab-stats" style="display:none"><h2>📊 Servicios más solicitados</h2><div id="statsBox"></div></div>
+
+  <!-- CONFIG -->
+  <div class="tarjeta" id="tab-cfg" style="display:none">
+    <h2>⚙️ Configuración</h2>
+    <div class="campo"><label>Número de WhatsApp (código de país, sin +)</label><input id="cWsp" placeholder="584121234567"></div>
+    <button class="btn btn-p" onclick="guardarCfg()">💾 Guardar número</button>
+    <div class="ok" id="cOk">✅ Guardado correctamente</div>
+    <hr style="border:none;border-top:1px solid #e3eaf3;margin:26px 0">
+    <h2>🔑 Cambiar contraseña</h2>
+    <p style="font-size:.85rem;color:var(--gris);margin-bottom:12px">Recibirás un correo de Supabase para restablecerla de forma segura.</p>
+    <button class="btn btn-p" onclick="resetPass()">Enviar correo de restablecimiento</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let servicios = [], editandoId = null;
+
+sb.auth.onAuthStateChange((e,s)=>{
+  if(s){ setTimeout(()=>mostrarPanel(),0); } else { document.getElementById('vistaLogin').style.display='block'; document.getElementById('vistaPanel').style.display='none'; }
+});
+
+async function login(){
+  const {error} = await sb.auth.signInWithPassword({
+    email: document.getElementById('lEmail').value.trim(),
+    password: document.getElementById('lPass').value
+  });
+  if(error){ const e=document.getElementById('lErr'); e.textContent='❌ '+error.message; e.style.display='block'; }
+}
+async function salir(){ await sb.auth.signOut(); location.reload(); }
+
+async function mostrarPanel(){
+  const {data:{user}} = await sb.auth.getUser();
+  if(!user){ return; }
+  const {data: adminRow, error: adminError} = await sb.from('admin_users').select('user_id').eq('user_id',user.id).maybeSingle();
+  if(adminError || !adminRow){
+    await sb.auth.signOut();
+    const e=document.getElementById('lErr');
+    e.textContent='Esta cuenta no está autorizada como administradora. Pide que se habilite tu usuario.';
+    e.style.display='block';
+    return;
+  }
+  document.getElementById('vistaLogin').style.display='none';
+  document.getElementById('vistaPanel').style.display='block';
+  document.getElementById('sesionTxt').textContent = 'Sesión: ' + (user.email||'');
+  await cargar();
+  const {data:cfg} = await sb.from('config').select('valor').eq('clave','whatsapp').single();
+  if(cfg) document.getElementById('cWsp').value = cfg.valor;
+}
+async function cargar(){
+  const {data} = await sb.from('servicios').select('*').order('clicks',{ascending:false});
+  servicios = data||[]; renderLista(); renderStats();
+}
+function esc(t){const d=document.createElement('div');d.textContent=t??'';return d.innerHTML}
+
+function renderLista(){
+  const c = document.getElementById('tab-lista');
+  if(!servicios.length){ c.innerHTML='<h2>📦 Mis servicios</h2><p style="color:var(--gris)">No hay servicios aún. Usa la pestaña ➕ para agregar el primero.</p>'; return; }
+  c.innerHTML = '<h2>📦 Mis servicios ('+servicios.length+')</h2>' + servicios.map(s=>`
+    <div class="fila">
+      <img src="${esc(s.imagen)||IMG_DEFAULT}" onerror="this.src='${IMG_DEFAULT}'">
+      <div class="info"><b>${esc(s.nombre)}</b><br>
+        <small>${esc(s.precio)} · ⏱️ ${esc(s.tiempo_entrega||'24-48h')} · ${s.clicks||0} solicitudes ·
+        <span class="badge ${s.activo?'b-on':'b-off'}">${s.activo?'Visible':'Oculto'}</span></small>
+      </div>
+      <div>
+        <button class="btn btn-e" onclick="editar('${s.id}')">✏️ Editar</button>
+        <button class="btn ${s.activo?'btn-s':'btn-v'}" onclick="toggle('${s.id}')">${s.activo?'🙈 Ocultar':'👁️ Mostrar'}</button>
+        <button class="btn btn-d" onclick="borrar('${s.id}')">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+function renderStats(){
+  const box = document.getElementById('statsBox');
+  if(!servicios.length){ box.innerHTML='<p style="color:var(--gris)">Sin datos todavía.</p>'; return; }
+  const max = Math.max(1,...servicios.map(s=>s.clicks||0));
+  box.innerHTML = servicios.map(s=>`
+    <div class="stat"><span style="font-size:.9rem">🔹 ${esc(s.nombre)} — <b>${s.clicks||0}</b> solicitud(es)</span>
+    <div class="stat-barra"><div style="width:${Math.round((s.clicks||0)/max*100)}%"></div></div></div>`).join('') +
+    '<p style="font-size:.8rem;color:var(--gris);margin-top:8px">🤖 Autoaprendizaje: el catálogo público ordena los servicios automáticamente del más al menos solicitado.</p>';
+}
+
+function tab(el,nombre){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('act')); el.classList.add('act');
+  ['lista','form','stats','cfg'].forEach(t=>document.getElementById('tab-'+t).style.display = t===nombre?'block':'none');
+}
+
+/* ---- FORM / GUARDAR ---- */
+function previsualizar(){
+  const f = document.getElementById('fImg').files[0]; if(!f) return;
+  const p = document.getElementById('fPreview');
+  p.src = URL.createObjectURL(f); p.style.display='block';
+}
+function previewUrl(){
+  const u = document.getElementById('fImgUrl').value.trim();
+  const p = document.getElementById('fPreview');
+  if(u){ p.src=u; p.style.display='block'; }
+}
+function limpiarForm(){
+  editandoId=null;
+  ['fNombre','fPrecio','fTiempo','fDesc','fReq','fImgUrl'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('fImg').value=''; document.getElementById('fPreview').style.display='none';
+  document.getElementById('fActivo').checked = true;
+  document.getElementById('formTitulo').textContent='➕ Nuevo servicio';
+  document.getElementById('fErr').style.display='none';
+}
+function editar(id){
+  const s = servicios.find(x=>x.id===id); if(!s) return;
+  editandoId = id;
+  document.getElementById('fNombre').value=s.nombre;
+  document.getElementById('fPrecio').value=s.precio;
+  document.getElementById('fTiempo').value=s.tiempo_entrega||'';
+  document.getElementById('fDesc').value=s.descripcion||'';
+  document.getElementById('fReq').value=(s.requisitos||[]).join('\n');
+  document.getElementById('fImgUrl').value=s.imagen||'';
+  if(s.imagen){ const p=document.getElementById('fPreview'); p.src=s.imagen; p.style.display='block'; }
+  document.getElementById('fActivo').checked = s.activo;
+  document.getElementById('formTitulo').textContent='✏️ Editando: '+s.nombre;
+  tab(document.querySelectorAll('.tab')[1],'form');
+}
+async function guardar(){
+  const nombre = document.getElementById('fNombre').value.trim();
+  const precio = document.getElementById('fPrecio').value.trim();
+  if(!nombre || !precio){ const e=document.getElementById('fErr'); e.textContent='⚠️ Nombre y precio son obligatorios.'; e.style.display='block'; return; }
+  let imagen = document.getElementById('fImgUrl').value.trim();
+
+  // Subir imagen si se eligió archivo
+  const file = document.getElementById('fImg').files[0];
+  if(file){
+    const path = 'servicio-' + Date.now() + '.' + (file.name.split('.').pop()||'jpg');
+    const {error: upErr} = await sb.storage.from('servicios').upload(path, file, {upsert:true});
+    if(upErr){ const e=document.getElementById('fErr'); e.textContent='❌ Error subiendo imagen: '+upErr.message; e.style.display='block'; return; }
+    imagen = sb.storage.from('servicios').getPublicUrl(path).data.publicUrl;
+  }
+  const datos = {
+    nombre, precio,
+    tiempo_entrega: document.getElementById('fTiempo').value.trim()||'24-48 horas',
+    descripcion: document.getElementById('fDesc').value.trim(),
+    requisitos: document.getElementById('fReq').value.split('\n').map(r=>r.trim()).filter(Boolean),
+    imagen, activo: document.getElementById('fActivo').checked
+  };
+  const q = editandoId
+    ? sb.from('servicios').update(datos).eq('id', editandoId)
+    : sb.from('servicios').insert(datos);
+  const {error} = await q;
+  if(error){ const e=document.getElementById('fErr'); e.textContent='❌ '+error.message; e.style.display='block'; return; }
+  toast(editandoId ? '✅ Servicio actualizado' : '✅ Servicio agregado');
+  limpiarForm(); await cargar(); tab(document.querySelectorAll('.tab')[0],'lista');
+}
+async function toggle(id){
+  const s = servicios.find(x=>x.id===id);
+  await sb.from('servicios').update({activo:!s.activo}).eq('id',id);
+  await cargar(); toast(s.activo ? '🙈 Servicio ocultado del catálogo' : '👁️ Servicio visible');
+}
+async function borrar(id){
+  const s = servicios.find(x=>x.id===id);
+  if(!confirm(`¿Eliminar permanentemente "${s.nombre}"?`)) return;
+  const {error} = await sb.from('servicios').delete().eq('id',id);
+  if(!error){ await cargar(); toast('🗑️ Servicio eliminado'); }
+}
+async function guardarCfg(){
+  const w = document.getElementById('cWsp').value.replace(/\D/g,'');
+  if(!w) return;
+  const {error} = await sb.from('config').upsert({clave:'whatsapp', valor:w});
+  if(!error){ document.getElementById('cOk').style.display='block'; setTimeout(()=>document.getElementById('cOk').style.display='none',2500); }
+}
+async function resetPass(){
+  const email = (await sb.auth.getUser()).data.user?.email;
+  await sb.auth.resetPasswordForEmail(email, {redirectURL: location.origin + location.pathname});
+  toast('📧 Correo enviado para cambiar tu contraseña');
+}
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(t._x); t._x=setTimeout(()=>t.classList.remove('on'),2600); }
+</script>
+</body>
+</html>
