@@ -1,6 +1,6 @@
-// Clave publicable de Supabase: segura para uso en el navegador con RLS activo.
+// Clave anon pública de Supabase para uso en el navegador con RLS activo.
 const SUPABASE_URL = "https://ztxkffmryvzdfyonpynx.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_Tn_Xo56hjlk0HRrKxueQMA_BXqK4Hva";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0eGtmZm1yeXZ6ZGZ5b25weW54Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE0ODkxNTUsImV4cCI6MjEwNzA2OTE1NX0.IrZW-jM8STeg04q36UGn6ELcrdLiRi8todkKcb4QRQc";
 
 // Imagen por defecto si un servicio no tiene imagen
 const IMG_DEFAULT = "https://placehold.co/600x340/0b3d91/ffffff?text=Gestiones+Online";
