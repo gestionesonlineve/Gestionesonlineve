@@ -84,6 +84,7 @@ header{display:flex;justify-content:space-between;align-items:center;flex-wrap:w
   <div class="tarjeta" id="tab-form" style="display:none">
     <h2 id="formTitulo">➕ Nuevo servicio</h2>
     <div class="campo"><label>Nombre *</label><input id="fNombre" placeholder="Ej: Cita para Cédula de Identidad"></div>
+    <div class="campo"><label>Categoría *</label><input id="fCategoria" list="categoriasSugeridas" placeholder="Ej: SAIME, Licencias, SENIAT" value="Otros" required><datalist id="categoriasSugeridas"><option value="Licencias"><option value="SAIME"><option value="SENIAT"><option value="Ministerio de Educación"><option value="Currículum"><option value="Otros"></datalist><small style="color:var(--gris)">Elige una categoría existente o escribe una nueva para crearla.</small></div>
     <div class="campo"><label>Precio *</label><input id="fPrecio" placeholder="Ej: $3"></div>
     <div class="campo"><label>Tiempo estimado de entrega</label><input id="fTiempo" placeholder="Ej: 24 horas"></div>
     <div class="campo"><label>Descripción (se muestra al cliente)</label><textarea id="fDesc"></textarea></div>
@@ -170,7 +171,7 @@ function renderLista(){
     <div class="fila">
       <img src="${esc(s.imagen)||IMG_DEFAULT}" onerror="this.src='${IMG_DEFAULT}'">
       <div class="info"><b>${esc(s.nombre)}</b><br>
-        <small>${esc(s.precio)} · ⏱️ ${esc(s.tiempo_entrega||'24-48h')} · ${s.clicks||0} solicitudes ·
+        <small>📁 ${esc(s.categoria||'Otros')} · ${esc(s.precio)} · ⏱️ ${esc(s.tiempo_entrega||'24-48h')} · ${s.clicks||0} solicitudes ·
         <span class="badge ${s.activo?'b-on':'b-off'}">${s.activo?'Visible':'Oculto'}</span></small>
       </div>
       <div>
@@ -209,6 +210,7 @@ function previewUrl(){
 function limpiarForm(){
   editandoId=null;
   ['fNombre','fPrecio','fTiempo','fDesc','fReq','fImgUrl'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('fCategoria').value='Otros';
   document.getElementById('fImg').value=''; document.getElementById('fPreview').style.display='none';
   document.getElementById('fActivo').checked = true;
   document.getElementById('formTitulo').textContent='➕ Nuevo servicio';
@@ -218,6 +220,7 @@ function editar(id){
   const s = servicios.find(x=>x.id===id); if(!s) return;
   editandoId = id;
   document.getElementById('fNombre').value=s.nombre;
+  document.getElementById('fCategoria').value=s.categoria||'Otros';
   document.getElementById('fPrecio').value=s.precio;
   document.getElementById('fTiempo').value=s.tiempo_entrega||'';
   document.getElementById('fDesc').value=s.descripcion||'';
@@ -230,8 +233,9 @@ function editar(id){
 }
 async function guardar(){
   const nombre = document.getElementById('fNombre').value.trim();
+  const categoria = document.getElementById('fCategoria').value.trim() || 'Otros';
   const precio = document.getElementById('fPrecio').value.trim();
-  if(!nombre || !precio){ const e=document.getElementById('fErr'); e.textContent='⚠️ Nombre y precio son obligatorios.'; e.style.display='block'; return; }
+  if(!nombre || !precio || !categoria){ const e=document.getElementById('fErr'); e.textContent='⚠️ Nombre y precio son obligatorios.'; e.style.display='block'; return; }
   let imagen = document.getElementById('fImgUrl').value.trim();
 
   // Subir imagen si se eligió archivo
@@ -243,7 +247,7 @@ async function guardar(){
     imagen = sb.storage.from('servicios').getPublicUrl(path).data.publicUrl;
   }
   const datos = {
-    nombre, precio,
+    nombre, categoria, precio,
     tiempo_entrega: document.getElementById('fTiempo').value.trim()||'24-48 horas',
     descripcion: document.getElementById('fDesc').value.trim(),
     requisitos: document.getElementById('fReq').value.split('\n').map(r=>r.trim()).filter(Boolean),
