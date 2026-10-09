@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestiones Express — Catálogo de Trámites en Línea</title>
-<meta name="description" content="Cédula, RIF, licencias, vouchers MPPE, transcripciones y currículum. Trámites en línea rápidos y seguros.">
+<title>Gestiones Online — Tus trámites fáciles, rápidos y seguros</title>
+<meta name="description" content="Gestiones Online: orientación para trámites, documentos, cédula, RIF y licencias. Consulta requisitos y precios por WhatsApp.">
+<link rel="icon" type="image/svg+xml" href="brand-square.svg">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <style>
@@ -83,7 +84,7 @@ html{scroll-behavior:smooth;scroll-padding-top:20px}body{background:#f6f8fc;line
 .hero::before{content:"";position:absolute;left:-180px;bottom:-280px;width:520px;height:520px;border:1px solid rgba(255,255,255,.09);border-radius:50%;box-shadow:0 0 0 48px rgba(255,255,255,.025),0 0 0 96px rgba(255,255,255,.02)}
 .hero::after{right:-130px;top:130px;width:360px;height:360px;border:1px solid rgba(255,255,255,.12);background:transparent}.hero-inner{position:relative;z-index:1}
 .brand-row{display:flex;align-items:center;justify-content:space-between;padding:0 0 30px;border-bottom:1px solid rgba(255,255,255,.13)}.brand{display:flex;align-items:center;gap:11px;color:#fff;text-decoration:none;font-size:1.05rem;font-weight:500;letter-spacing:-.3px}.brand b{font-weight:800}.brand small{display:block;color:#b8c9e4;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;margin-top:-2px}
-.brand-mark{display:grid;place-items:center;width:43px;height:43px;border-radius:13px;background:linear-gradient(145deg,#ffdc87,#f5ad28);color:#122c53;font-weight:900;font-size:.95rem;box-shadow:0 7px 18px rgba(0,0,0,.15)}.nav-contact{color:#fff;text-decoration:none;font-size:.9rem;font-weight:700;padding:10px 15px;border:1px solid rgba(255,255,255,.25);border-radius:10px;transition:.2s}.nav-contact:hover{background:rgba(255,255,255,.1)}
+.brand-logo{display:block;width:clamp(190px,28vw,270px);height:auto;max-height:58px;object-fit:contain;border-radius:8px;background:#fff}.brand-mark{display:grid;place-items:center;width:43px;height:43px;border-radius:13px;background:linear-gradient(145deg,#ffdc87,#f5ad28);color:#122c53;font-weight:900;font-size:.95rem;box-shadow:0 7px 18px rgba(0,0,0,.15)}.nav-contact{color:#fff;text-decoration:none;font-size:.9rem;font-weight:700;padding:10px 15px;border:1px solid rgba(255,255,255,.25);border-radius:10px;transition:.2s}.nav-contact:hover{background:rgba(255,255,255,.1)}
 .hero-content{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:40px;padding:55px 0 43px}.hero-copy{position:relative;z-index:2}.hero-badge{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:#dce9ff;padding:7px 13px;font-size:.78rem;letter-spacing:.2px}.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#62e0ad;margin-right:7px;box-shadow:0 0 0 4px rgba(98,224,173,.13)}
 .hero h1{font-size:clamp(2.4rem,5vw,4.15rem);letter-spacing:-1.8px;line-height:1.06;margin:0 0 20px;color:#fff}.hero h1 span{color:#ffd16f}.hero p{max-width:510px;color:#c8d6eb;font-size:1.05rem;line-height:1.8;margin-bottom:25px}.hero-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap}.btn{border-radius:11px;padding:14px 19px;font-size:.95rem}.btn-wsp{box-shadow:0 9px 24px rgba(37,211,102,.2);font-weight:800}.hero-link{color:#fff;text-decoration:none;font-weight:700;font-size:.92rem}.hero-link span{margin-left:5px;color:#ffd16f}.hero-points{display:flex;gap:18px;flex-wrap:wrap;margin-top:23px;color:#c4d3e9;font-size:.79rem}.hero-points span:first-child{padding-right:18px;border-right:1px solid rgba(255,255,255,.2)}
 .hero-visual{position:relative;min-height:350px;display:grid;place-items:center}.visual-orbit{position:absolute;border:1px solid rgba(255,255,255,.12);border-radius:50%;width:330px;height:330px}.orbit-two{width:390px;height:390px;border-style:dashed;border-color:rgba(255,255,255,.08)}.visual-card{position:relative;width:min(100%,340px);padding:25px 25px 17px;border:1px solid rgba(255,255,255,.7);border-radius:22px;background:linear-gradient(150deg,rgba(255,255,255,.98),rgba(239,245,255,.96));color:#152c50;box-shadow:0 28px 65px rgba(0,0,0,.24);transform:rotate(1.5deg)}
@@ -104,7 +105,7 @@ html{scroll-behavior:smooth;scroll-padding-top:20px}body{background:#f6f8fc;line
 .brand-row{padding:13px 0 14px;align-items:center}
 .brand{font-size:.94rem;gap:9px}
 .brand small{font-size:.61rem;letter-spacing:1.2px}
-.brand-mark{width:38px;height:38px;border-radius:11px;font-size:.85rem;box-shadow:none}
+.brand-mark{width:38px;height:38px;border-radius:11px;font-size:.85rem;box-shadow:none}.brand-logo{width:clamp(155px,52vw,230px);max-height:45px}
 .nav-contact{font-size:.78rem;padding:8px 11px}
 .hero-content-simple{display:block;padding:20px 0 26px;max-width:900px}
 .hero-content-simple .hero-copy{max-width:760px;margin:0;text-align:left}
@@ -129,7 +130,7 @@ section.catalogo{padding:35px 0 55px}
  .brand-row{padding:11px 0 12px}
  .brand{font-size:.87rem}
  .brand small{font-size:.56rem}
- .brand-mark{width:35px;height:35px}
+ .brand-mark{width:35px;height:35px}.brand-logo{width:clamp(145px,49vw,195px);max-height:39px}
  .nav-contact{font-size:.72rem;padding:7px 9px}
  .hero-content-simple{padding:18px 0 22px}
  .hero-content-simple .hero-copy{text-align:left}
@@ -160,10 +161,14 @@ section.catalogo{padding:35px 0 55px}
 
 <header class="hero">
   <div class="container hero-inner">
+    <div class="brand-row">
+      <a class="brand" href="#inicio" aria-label="Gestiones Online, inicio"><img class="brand-logo" src="brand-horizontal.svg" alt="Gestiones Online — tus trámites fáciles, rápidos y seguros"></a>
+      <a class="nav-contact" href="#catalogo">Ver trámites ↓</a>
+    </div>
     <div class="hero-content hero-content-simple" id="inicio">
       <div class="hero-copy">
         <span class="hero-badge"><span class="status-dot"></span> Atención en línea · Venezuela</span>
-        <h1>Resuelve tus<br><span>gestiones sin complicarte.</span></h1>
+        <h1>Tus trámites<br><span>fáciles, rápidos y seguros.</span></h1>
         <p>Te orientamos con tus documentos y trámites, de forma clara, directa y desde tu celular.</p>
         <div class="hero-actions">
           <button class="btn btn-wsp" onclick="wspGeneral()">💬 Consultar por WhatsApp <span aria-hidden="true">→</span></button>
@@ -203,7 +208,7 @@ section.catalogo{padding:35px 0 55px}
 </section>
 
 <footer>
-  <div class="container"><b>Gestiones Express</b> · Catálogo de trámites en línea<br>📱 <span id="telFooter"></span><br><br>© 2026 Todos los derechos reservados.</div>
+  <div class="container"><img src="brand-horizontal.svg" alt="Gestiones Online" style="display:block;width:min(100%,300px);margin:0 auto 14px;border-radius:10px"><b>Gestiones Online</b> · Tus trámites fáciles, rápidos y seguros<br>📱 <span id="telFooter"></span><br><br>Servicio independiente de orientación y gestión. No somos un organismo gubernamental.<br><br>© 2026 Todos los derechos reservados.</div>
 </footer>
 
 <button class="fab" onclick="wspGeneral()" title="WhatsApp">💬</button>

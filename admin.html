@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel Administrador</title>
+<title>Gestiones Online — Panel administrativo</title>
+<link rel="icon" type="image/svg+xml" href="brand-square.svg">
 <meta name="robots" content="noindex,nofollow">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
@@ -13,7 +14,7 @@
 body{background:var(--bg);color:#1c2733;min-height:100vh}
 .caja{max-width:860px;margin:0 auto;padding:30px 18px}
 .tarjeta{background:#fff;border-radius:16px;box-shadow:var(--sombra);padding:28px}
-h1{color:var(--azul);font-size:1.6rem;margin-bottom:4px}
+h1{color:var(--azul);font-size:1.6rem;margin-bottom:4px}.marca-admin{display:block;width:min(100%,270px);height:auto;margin:0 auto 20px;border-radius:10px}.cabecera-admin{display:flex;align-items:center;gap:14px}.cabecera-admin img{width:190px;max-width:40%;height:auto;border-radius:8px}@media(max-width:520px){.tarjeta{padding:20px}.cabecera-admin img{width:145px}.caja{padding:20px 12px}}
 h2{color:var(--azul);font-size:1.15rem;margin:22px 0 14px}
 .campo{margin-bottom:14px}
 .campo label{display:block;font-size:.78rem;font-weight:700;color:var(--gris);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
@@ -54,7 +55,8 @@ header{display:flex;justify-content:space-between;align-items:center;flex-wrap:w
 <!-- LOGIN -->
 <div class="caja" id="vistaLogin" style="max-width:440px;padding-top:8vh">
   <div class="tarjeta">
-    <h1>🔐 Panel Administrador</h1>
+    <img class="marca-admin" src="brand-horizontal.svg" alt="Gestiones Online">
+    <h1>🔐 Panel administrativo</h1>
     <p style="color:var(--gris);font-size:.9rem;margin-bottom:20px">Acceso exclusivo. Esta página no está enlazada desde el catálogo público.</p>
     <div class="campo"><label>Correo</label><input type="email" id="lEmail" autocomplete="username"></div>
     <div class="campo"><label>Contraseña</label><input type="password" id="lPass" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"></div>
@@ -66,7 +68,7 @@ header{display:flex;justify-content:space-between;align-items:center;flex-wrap:w
 <!-- PANEL -->
 <div class="caja" id="vistaPanel" style="display:none">
   <header>
-    <div><h1>⚙️ Panel de Gestión</h1><small style="color:var(--gris)" id="sesionTxt"></small></div>
+    <div class="cabecera-admin"><img src="brand-horizontal.svg" alt="Gestiones Online"><div><h1>Panel de gestión</h1><small style="color:var(--gris)" id="sesionTxt"></small></div></div>
     <button class="btn btn-d" onclick="salir()">Cerrar sesión</button>
   </header>
 
