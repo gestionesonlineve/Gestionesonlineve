@@ -155,15 +155,45 @@ section.catalogo{padding:35px 0 55px}
  .hero-content-simple .btn{padding:10px 11px;font-size:.77rem}
  .hero-content-simple .hero-points{font-size:.64rem}
 }
+
+/* Portada: logo centrado y destacado, sin enlaces de salto redundantes */
+.brand-row.brand-row-centered { justify-content: center; padding-bottom: 26px; }
+.brand-row-centered .brand { justify-content: center; }
+.brand-row-centered .brand-logo { width: clamp(280px, 48vw, 440px); height: auto; max-height: none; }
+.hero-content-simple { display: block; text-align: center; padding: 38px 0 46px; }
+.hero-content-simple .hero-copy { max-width: 100%; text-align: center; }
+.hero-content-simple .hero-badge { margin-left: auto; margin-right: auto; }
+.hero-content-simple .hero-copy > p { max-width: 850px; margin: 0 auto 28px; font-size: 1.08rem; }
+.hero-content-simple h1 { max-width: 1050px; margin: 0 auto 22px; font-size: clamp(2.5rem, 5.6vw, 4.5rem); letter-spacing: -1.4px; line-height: 1.12; }
+.hero-content-simple .hero-actions { justify-content: center; }
+.hero-content-simple .btn-wsp { padding: 17px 28px; font-size: 1.05rem; border-radius: 14px; }
+.hero-content-simple .hero-points { justify-content: center; font-size: .9rem; margin-top: 24px; }
+.hero-content-simple .hero-points span:first-child { padding-right: 20px; }
+@media (max-width: 760px) {
+ .brand-row.brand-row-centered { padding-top: 12px; padding-bottom: 20px; }
+ .brand-row-centered .brand-logo { width: clamp(250px, 76vw, 370px); }
+ .hero-content-simple { padding: 22px 0 34px; }
+ .hero-content-simple h1 { font-size: clamp(2.05rem, 8.2vw, 3.1rem); letter-spacing: -.8px; line-height: 1.13; }
+ .hero-content-simple .hero-copy > p { font-size: .96rem; line-height: 1.7; margin-bottom: 22px; }
+ .hero-content-simple .hero-actions { justify-content: center; }
+ .hero-content-simple .btn-wsp { padding: 15px 18px; font-size: .92rem; max-width: 100%; }
+ .hero-content-simple .hero-points { font-size: .76rem; gap: 12px; }
+ .hero-content-simple .hero-points span:first-child { padding-right: 12px; }
+}
+@media (max-width: 390px) {
+ .brand-row-centered .brand-logo { width: 245px; }
+ .hero-content-simple h1 { font-size: 1.95rem; }
+ .hero-content-simple .btn-wsp { padding: 13px 12px; font-size: .82rem; }
+}
+
 </style>
 </head>
 <body>
 
 <header class="hero">
   <div class="container hero-inner">
-    <div class="brand-row">
+    <div class="brand-row brand-row-centered">
       <a class="brand" href="#inicio" aria-label="Gestiones Online, inicio"><img class="brand-logo" src="brand-horizontal.svg" alt="Gestiones Online — tus trámites fáciles, rápidos y seguros"></a>
-      <a class="nav-contact" href="#catalogo">Ver trámites ↓</a>
     </div>
     <div class="hero-content hero-content-simple" id="inicio">
       <div class="hero-copy">
@@ -172,7 +202,7 @@ section.catalogo{padding:35px 0 55px}
         <p>Te orientamos con tus documentos y trámites, de forma clara, directa y desde tu celular.</p>
         <div class="hero-actions">
           <button class="btn btn-wsp" onclick="wspGeneral()">💬 Consultar por WhatsApp <span aria-hidden="true">→</span></button>
-          <a class="hero-link" href="#catalogo">Ver servicios <span aria-hidden="true">↓</span></a>
+
         </div>
         <div class="hero-points"><span>✓ Atención personalizada</span><span>✓ Precios visibles</span></div>
       </div>
